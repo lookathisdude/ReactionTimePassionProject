@@ -25,6 +25,9 @@ export default function Home() {
       >
         Start Test
       </button>
+
+      {/* Ask the user for their information such as year group, 
+      sleep hours last night, device type, and gender */}
     </div>
   );
 }
