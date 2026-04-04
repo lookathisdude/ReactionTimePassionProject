@@ -10,7 +10,7 @@ public interface ReactionTimeServiceInterface {
 
     List<ReactionTimeEntity> getReactionTimesByUser(String userId);
 
-    ReactionTimeEntity addReactionTime(String userId, long reactionTime);
+    ReactionTimeEntity addReactionTime(String userId, int reactionTime);
 
-    ReactionTimeEntity getReactionTimeById(UUID id); 
+    ReactionTimeEntity getReactionTimeById(UUID id);
 }

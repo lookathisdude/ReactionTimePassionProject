@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +25,7 @@ public class ReactionTimeEntity {
 
     private String userId; // userId is a string that can be used to identify the user.
 
-    private long reactionTime; // in milliseconds
+    private Integer reactionTime; // in milliseconds
 
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private OffsetDateTime timestamp = OffsetDateTime.now();
 }

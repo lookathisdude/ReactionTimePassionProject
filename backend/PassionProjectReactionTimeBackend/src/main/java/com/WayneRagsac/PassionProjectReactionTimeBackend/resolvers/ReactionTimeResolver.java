@@ -3,6 +3,7 @@ package com.WayneRagsac.PassionProjectReactionTimeBackend.resolvers;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import com.WayneRagsac.PassionProjectReactionTimeBackend.services.ReactionTimeSe
 @Controller
 public class ReactionTimeResolver {
 
-    // initialise the service
     private final ReactionTimeService reactionTimeService;
 
     public ReactionTimeResolver(ReactionTimeService reactionTimeService) {
@@ -27,12 +27,12 @@ public class ReactionTimeResolver {
     }
 
     @QueryMapping
-    public List<ReactionTimeEntity> getReactionTimesByUser(String userId) {
+    public List<ReactionTimeEntity> getReactionTimesByUser(@Argument String userId) {
         return reactionTimeService.getReactionTimesByUser(userId);
     }
 
     @QueryMapping
-    public ReactionTimeEntity getReactionTimeById(String id) {
+    public ReactionTimeEntity getReactionTimeById(@Argument String id) {
         try {
             return reactionTimeService.getReactionTimeById(UUID.fromString(id));
         } catch (IllegalArgumentException e) {
@@ -41,9 +41,9 @@ public class ReactionTimeResolver {
         }
     }
 
+    // Mutation: accept reaction time as integer
     @MutationMapping
-    public ReactionTimeEntity addReactionTime(String userId, long reactionTime) {
+    public ReactionTimeEntity addReactionTime(@Argument String userId, @Argument int reactionTime) {
         return reactionTimeService.addReactionTime(userId, reactionTime);
     }
-
 }

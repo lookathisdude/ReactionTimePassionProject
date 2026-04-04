@@ -1,10 +1,15 @@
 #This reaction time entity represents a single reaction time record in the database.
 # It includes an ID, user ID, reaction time, and timestamp.
+
+#scalars
+scalar UUID
+scalar DateTime
+
 type ReactionTimeEntity {
-  id: ID!
+  id: UUID!
   userId: String
-  reactionTime: Float!
-  timestamp: String!
+  reactionTime: Int!
+  timestamp: DateTime!
 }
 
 # The Query type defines the available queries for fetching reaction time data.
@@ -15,5 +20,5 @@ type Query {
 
 # The Mutation type defines the available mutations for adding new reaction time records.
 type Mutation {
-  addReactionTime(userId: String, reactionTime: Float!): ReactionTimeEntity
+  addReactionTime(userId: String, reactionTime: Int!): ReactionTimeEntity
 }

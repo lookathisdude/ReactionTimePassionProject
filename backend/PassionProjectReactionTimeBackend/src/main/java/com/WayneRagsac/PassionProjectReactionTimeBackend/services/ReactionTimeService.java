@@ -43,7 +43,7 @@ public class ReactionTimeService implements ReactionTimeServiceInterface {
     }
 
     @Override
-    public ReactionTimeEntity addReactionTime(String userId, long reactionTime) {
+    public ReactionTimeEntity addReactionTime(String userId, int reactionTime) {
         try {
             ReactionTimeEntity newReactionTime = new ReactionTimeEntity();
             newReactionTime.setUserId(userId);
