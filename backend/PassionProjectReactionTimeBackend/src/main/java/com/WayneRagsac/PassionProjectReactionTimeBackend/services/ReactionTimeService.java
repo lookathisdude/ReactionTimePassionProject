@@ -9,14 +9,13 @@ import com.WayneRagsac.PassionProjectReactionTimeBackend.entities.ReactionTimeEn
 import com.WayneRagsac.PassionProjectReactionTimeBackend.repository.ReactionTimeRepository;
 import com.WayneRagsac.PassionProjectReactionTimeBackend.services.interfaces.ReactionTimeServiceInterface;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ReactionTimeService implements ReactionTimeServiceInterface {
 
     private final ReactionTimeRepository reactionTimeRepository;
-
-    public ReactionTimeService(ReactionTimeRepository reactionTimeRepository) {
-        this.reactionTimeRepository = reactionTimeRepository;
-    }
 
     @Override
     public List<ReactionTimeEntity> getAllReactionTimes() {

@@ -15,7 +15,8 @@
     "@mui/material": "^7.3.9",
     "next": "16.2.2",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "reaction-time-frontend": "."
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,7 +29,7 @@
     "typescript": "^5"
   },
   "ignoreScripts": [
-    "sharp",               
+    "sharp",
     "unrs-resolver"
   ],
   "trustedDependencies": [

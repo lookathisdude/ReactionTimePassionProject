@@ -1,24 +1,65 @@
-#This reaction time entity represents a single reaction time record in the database.
-# It includes an ID, user ID, reaction time, and timestamp.
-
-#scalars
+# =========================
+# Scalars
+# =========================
 scalar UUID
 scalar DateTime
 
+# =========================
+# Enums
+# =========================
+enum DeviceType {
+  DESKTOP
+  LAPTOP
+  TABLET
+  PHONE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+# =========================
+# Entities
+# =========================
 type ReactionTimeEntity {
   id: UUID!
-  userId: String
+  userId: String!
   reactionTime: Int!
   timestamp: DateTime!
 }
 
-# The Query type defines the available queries for fetching reaction time data.
-type Query {
-  getAllReactionTimes: [ReactionTimeEntity]
-  getReactionTimesByUser(userId: String!): [ReactionTimeEntity]
+type UserEntity {
+  id: UUID!
+  yearGroup: Int!
+  sleepHours: Int!
+  deviceType: DeviceType!
+  gender: Gender!
+  timestamp: DateTime!
 }
 
-# The Mutation type defines the available mutations for adding new reaction time records.
+# =========================
+# Queries
+# =========================
+type Query {
+  findByDeviceType(deviceType: DeviceType!): [UserEntity]
+
+  findByYearGroup(yearGroup: Int!): [UserEntity]
+
+  findByGender(gender: Gender!): [UserEntity]
+
+  findBySleepHours(sleepHours: Int!): [UserEntity]
+}
+
+# =========================
+# Mutations
+# =========================
 type Mutation {
-  addReactionTime(userId: String, reactionTime: Int!): ReactionTimeEntity
+  addUser(
+    yearGroup: Int!
+    sleepHours: Int!
+    deviceType: DeviceType!
+    gender: Gender!
+  ): UserEntity
 }
