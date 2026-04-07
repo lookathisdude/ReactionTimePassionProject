@@ -1,25 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "@apollo/client/react";
 import {
   calculateReactionTime,
   calculateAverageReactionTime,
-} from "../utils/reaction-time";
-import { getUserId, sendReactionTime } from "../utils/sendReactionTime";
+} from "../utils/calculateReactionTimes";
+import { getUserId, ADD_REACTION_TIME, AddReactionTimeResponse } from "../utils/sendReactionTime";
 
 export default function ReactionTest() {
+  const [addReactionTime] = useMutation<AddReactionTimeResponse>(ADD_REACTION_TIME);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [waiting, setWaiting] = useState(false);
   const [message, setMessage] = useState("Click Start!");
   const [count, setCount] = useState(0);
   const [reactionTimes, setReactionTimes] = useState<number[]>([]);
-
   const totalTrials = 4;
 
   const handleStart = () => {
     setMessage("Wait for it...");
     setWaiting(true);
-
     const delay = Math.random() * 2000 + 1000;
     setTimeout(() => {
       setStartTime(Date.now());
@@ -51,13 +51,15 @@ export default function ReactionTest() {
     // Send reaction time to backend
     try {
       const userId = getUserId();
-      const result = await sendReactionTime(userId, reaction);
-      console.log("Sent reaction time to backend:", result);
+      const { data } = await addReactionTime({
+        variables: { userId, reactionTime: reaction },
+      });
+      console.log("Sent reaction time to backend:", data?.addReactionTime);
     } catch (error) {
       console.error("Failed to send reaction time:", error);
     }
 
-    //Check if the test is complete and calculate average reaction time
+    // Check if the test is complete and calculate average reaction time
     if (newCount === totalTrials) {
       const average = calculateAverageReactionTime(updatedReactionTimes);
       setMessage(`Test complete! Your average reaction time: ${average} ms`);

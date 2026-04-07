@@ -20,6 +20,13 @@ enum Gender {
   OTHER
 }
 
+input AddUserInput {
+    yearGroup: Int!
+    sleepHours: Int!
+    deviceType: DeviceType!
+    gender: Gender!
+}
+
 # =========================
 # Entities
 # =========================
@@ -56,10 +63,5 @@ type Query {
 # Mutations
 # =========================
 type Mutation {
-  addUser(
-    yearGroup: Int!
-    sleepHours: Int!
-    deviceType: DeviceType!
-    gender: Gender!
-  ): UserEntity
+  addUser(input: AddUserInput!): UserEntity
 }

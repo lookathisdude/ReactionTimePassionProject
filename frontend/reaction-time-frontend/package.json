@@ -9,14 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@apollo/client": "^4.1.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
+    "graphql": "^16.13.2",
     "next": "16.2.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "reaction-time-frontend": "."
+    "reaction-time-frontend": ".",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

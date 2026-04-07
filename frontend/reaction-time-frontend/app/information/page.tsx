@@ -46,7 +46,7 @@ export default function Information() {
         height: "30vh",
         backgroundColor: "#1e1e1e",
         color: "#f5f5f5",
-        fontFamily: "'Courier New', monospace",
+        fontFamily: "Meow Script, cursive",
         fontSize: { xs: "1.2rem", sm: "1.5rem", md: "4rem" },
         letterSpacing: "0.05em",
         textShadow: "0 0 5px #8ecae6, 0 0 10px #219ebc",
