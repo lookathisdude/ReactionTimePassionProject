@@ -1,40 +1,48 @@
 "use client";
 
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
-import { useEffect, useState, ReactNode } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { lightTheme, darkTheme } from "../theme";
+import ThemeModeContext, { Mode } from "../hooks/useThemeMode";
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export default function ThemeProvider({ children }: ThemeProviderProps) {
-  //dark mode state and effect to listen for system preference changes
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Default to dark (safe for SSR)
+  const [mode, setMode] = useState<Mode>("dark");
 
+  // Listen for system preference changes
   useEffect(() => {
-    const darkMediaQuery = globalThis.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    // Set initial value via a one-time event dispatch instead of direct setState
-    darkMediaQuery.addEventListener("change", handleChange);
+    const handleChange = (e: MediaQueryListEvent) => {
+      setMode(prevMode => (prevMode === "system" ? (e.matches ? "dark" : "light") : prevMode));
+    };
 
-    // Use a separate initialization check
-    if (darkMediaQuery.matches !== isDarkMode) {
-      const initEvent = new MediaQueryListEvent("change", {
-        matches: darkMediaQuery.matches,
-        media: darkMediaQuery.media,
-      });
-      handleChange(initEvent);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  // Determine effective theme
+  const effectiveMode = useMemo(() => {
+    if (mode === "system") {
+      return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
     }
+    return mode;
+  }, [mode]);
 
-    return () => darkMediaQuery.removeEventListener("change", handleChange);
-  }, [isDarkMode]);
+  const theme = useMemo(() => (effectiveMode === "dark" ? darkTheme : lightTheme), [effectiveMode]);
 
   return (
-    <MuiThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      {children}
-    </MuiThemeProvider>
+    <ThemeModeContext.Provider value={{ mode, setMode }}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
+    </ThemeModeContext.Provider>
   );
 }
